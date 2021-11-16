@@ -1,0 +1,187 @@
+<div class="container ">
+    <div class="row">
+
+        <div class="col-sm-8 mx-auto">
+
+            <h3 class="bg-primary text-white p-3 text-center">
+                {{getName()}}'s To Do List
+            </h3>
+
+            <div class="input-group mb-3"> <!-- (keyup.enter)="addItem(input.value) ; input.value='' " // diğer yol addItem değer almaz-->
+                <input #input type="text" class="form-control" 
+                (keyup.enter)="addItem()"
+                [(ngModel)]="inputText">
+
+                <!-- <input #input type="text" class="form-control" (blur)="addItem(input.value)">  -->
+                <!-- <button class="btn btn-outline-primary" (click)="addItem(input)"> -->
+
+                <!-- (click)="addItem(input.value) ; input.value='' " // diğer yol addItem değer almaz-->
+                <button class="btn" 
+                (click)="addItem()"
+                [class]="getBtnClasses()"
+                >
+                    Add
+                </button>
+            </div>
+
+            <!-- <p class="text-center">{{message}}</p> -->
+
+            <div class="form-check mb-3 text-center">
+                <input type="checkbox" [(ngModel)]="displayAll" class="form-check-input" name="" id="displayAll">
+                <label for="displayAll" class="form-check-label">Hepsini Göster</label>
+            </div>
+
+
+            <div class="my-2 text-center">
+                {{ displayCount() }} tane görev tamamlandı
+            </div>
+
+            <div class="alert alert-success text-center" *ngIf="getItems().length == 0 else itemsTable">
+                Tüm Görevler Tamamlandı
+            </div>
+
+            <ng-template #itemsTable>
+
+                <table class="table table-bordered text-center" >
+
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+    
+                        <!-- <tr>
+                            <td>1</td>
+                            <td>Kahvaltı</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Spor</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Alışveriş</td>
+                            <td>No</td>
+                        </tr> -->
+    
+                        <!-- <td>{{item.id}}</td>  -->
+                        <!--
+                        <tr *ngFor="let item of items ; let i =index">
+                            <td>{{i+1}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.action}}</td>
+                        </tr>
+                        -->
+    
+                        <tr *ngFor="let item of getItems() ; let i = index" [class]="{ 'bg-success' : item.action , 'bg-danger' : !item.action }"> <!--[class.bg-success]="item.action" [class.bg-danger]="!item.action"  // diğer yol-->
+                            <td>{{i+1}}</td>
+                            <td>{{item.description}}</td>
+    
+                            <!-- <td>{{item.action}}</td> -->
+
+                            <!-- <td>
+                                <div *ngIf=" item.action ">Yes</div>
+                                <div *ngIf=" !item.action ">No</div>
+                            </td> -->
+
+                            <!-- <td>
+                                <div [ngSwitch]="item.action">
+                                    <div *ngSwitchCase="true">Yes</div>
+                                    <div *ngSwitchCase="false">No</div> -->
+                                    <!-- <div *ngSwitchDefault>No</div> -->
+                                <!-- </div>
+                            </td> -->
+
+                            <!-- <td>
+                                <div *ngIf="item.action else noTemplate">
+                                    Yes
+                               </div>
+                               
+                                <ng-template #noTemplate>
+                                    No
+                                </ng-template>
+                            </td> -->
+
+                            <!-- <td>
+                                <div *ngIf="item.action then noTemplate">
+                                    Burası Gösterilmez
+                               </div>
+                               
+                                <ng-template #noTemplate>
+                                    No
+                                </ng-template>
+                            </td> -->
+
+                            <td>
+                                <div *ngIf="item.action then yesTemplate else noTemplate">
+                                    Burası Gösterilmez
+                               </div>
+                               
+                                <ng-template #noTemplate>
+                                    No
+                                </ng-template>
+
+                                <ng-template #yesTemplate>
+                                    Yes
+                                </ng-template>
+                            </td>
+    
+                            <!-- <td>
+                                <input type="checkbox" [(ngModel)]="item.action" name="" id="">
+                            </td> -->
+
+                            <td>
+                                <input type="checkbox" (change)="onActionChanged(item)" [(ngModel)]="item.action" name="" id="">
+                            </td>
+
+                        </tr>
+    
+                        
+    
+    
+                    </tbody>
+                    
+                </table>
+
+            </ng-template>
+
+            
+
+
+
+            <!-- <ul>
+                <li *ngFor="let item of items">
+                    {{item}}
+                </li>
+            </ul> -->
+
+            <!-- <div>
+                <p *ngFor="let item of items">
+                    {{item.description}}
+                </p>
+            </div> -->
+
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
